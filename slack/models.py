@@ -18,6 +18,8 @@ class Memegen:
             name = value.replace(self.BASE_URL + "/templates/", "")
             description = key
             data.append((name, description))
+        
+        data.append(('archit', 'its fine'))
 
         data.sort(key=lambda tup: tup[0])
         return data
@@ -33,10 +35,16 @@ class Memegen:
         return help
 
     def build_url(self, template, top, bottom):
-        path = "/{0}/{1}/{2}.jpg".format(template, top or '_', bottom or '_')
-        url = self.BASE_URL + path
-
-        return url
+        custom_templates = {
+            'archit': 'https://cloud.githubusercontent.com/assets/1282605/11082847/f0704dbe-87f6-11e5-9ef8-0bbbdef9f138.jpg'
+            }
+        if template in custom_templates:
+            template = quote(custom_templates[template])
+            return self.BASE_URL + "/{0}/{1}/{2}".format(top or '_', bottom or '_', template)
+        else:
+            path = "/{0}/{1}/{2}.jpg".format(template, top or '_', bottom or '_')
+            url = self.BASE_URL + path
+            return url
 
     def error(self):
         return "That template doesn't exist. Type `/meme templates` to see valid templates or provide your own as a URL."
