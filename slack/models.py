@@ -19,7 +19,7 @@ class Memegen:
             description = key
             data.append((name, description))
         
-        data.append('https://cloud.githubusercontent.com/assets/1282605/11082847/f0704dbe-87f6-11e5-9ef8-0bbbdef9f138.jpg', 'archit')
+        data.append(('https://cloud.githubusercontent.com/assets/1282605/11082847/f0704dbe-87f6-11e5-9ef8-0bbbdef9f138.jpg', 'archit'))
 
         data.sort(key=lambda tup: tup[0])
         return data
