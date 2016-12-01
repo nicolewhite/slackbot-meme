@@ -14,9 +14,12 @@ class Memegen:
         data = []
 
         for key, value in response.items():
+            link_response = link_requests.get(value).json()
             name = value.replace(self.BASE_URL + "/api/templates/", "")
             description = key
-            data.append((name, description))
+            link_unicode = link_response["description"]
+            link = link_unicode.encode('utf-8')
+            data.append((name, description, link))
 
         data.sort(key=lambda tup: tup[0])
         return data
@@ -27,7 +30,7 @@ class Memegen:
         help = ""
 
         for template in templates:
-            help += "`{0}` {1}\n".format(template[0], template[1])
+            help += "`{0}` {1}` {2}\n".format(template[0], template[1], template[2])
 
         return help
 
