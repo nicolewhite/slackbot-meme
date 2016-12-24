@@ -1,7 +1,10 @@
+cryptography==1.7.1
 Flask==0.10.1
+idna==2.2
+itsdangerous==0.24
 Jinja2==2.7.3
 MarkupSafe==0.23
+pyOpenSSL==16.2.0
+requests==2.12.4
 Werkzeug==0.10.4
-itsdangerous==0.24
-requests==2.7.0
 wsgiref==0.1.2
