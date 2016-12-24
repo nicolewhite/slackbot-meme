@@ -35,7 +35,7 @@ class Memegen:
         help = ""
 
         for alias, description, example_link in self.template_info:
-            help += '<a href="{}">`{}`</a>: {}\n'.format(example_link, alias, description)
+            help += '`<{}|{}>` {}\n'.format(example_link, alias, description)
 
         return help
 
