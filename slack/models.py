@@ -7,19 +7,12 @@ class Memegen:
 
     def __init__(self):
         self.BASE_URL = "https://memegen.link"
-        self.valid_templates = self.get_valid_templates()
         self.template_info = self.get_template_info()
+        self.valid_templates = self.get_valid_templates()
+        self.template_list = self.get_template_list()
 
     def get_valid_templates(self):
-        template = requests.get(self.BASE_URL + "/api/templates/").json()
-
-        aliases = []
-
-        for _, api_link in template.items():
-            alias = api_link.split('/api/templates/')[1]
-            aliases.append(alias)
-
-        return aliases
+        return [x[0] for x in self.template_info]
 
     def get_template_info(self):
         template = requests.get(self.BASE_URL + "/api/templates/").json()
@@ -27,19 +20,18 @@ class Memegen:
         data = []
 
         for description, api_link in template.items():
-            info = requests.get(api_link).json()
-            alias = min(info["aliases"], key=len)
-            example_link = "https://memegen.link/{}/your-text/goes-here.jpg".format(alias)
+            alias = api_link.split("/api/templates/")[1]
+            link = "https://memegen.link/{}/your-text/goes-here.jpg".format(alias)
 
             alias = alias.encode('utf8')
             description = description.encode('utf8')
-            example_link = example_link.encode('utf8')
+            link = link.encode('utf8')
 
-            data.append((alias, description, example_link))
+            data.append((alias, description, link))
 
         return sorted(data, key=lambda x: x[0])
 
-    def list_templates(self):
+    def get_template_list(self):
         help = ""
 
         for alias, description, example_link in self.template_info:

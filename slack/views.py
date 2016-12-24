@@ -1,15 +1,12 @@
 from flask import Flask, request
 from models import Memegen, Slack, parse_text_into_params, image_exists
 
-
 app = Flask(__name__)
-
+memegen = Memegen()
+slack = Slack()
 
 @app.route("/")
 def meme():
-    memegen = Memegen()
-    slack = Slack()
-
     if not request.args:
         return memegen.help()
 
@@ -25,7 +22,7 @@ def meme():
         return memegen.help()
 
     if text.lower() == "templates":
-        return memegen.list_templates()
+        return memegen.template_list
 
     template, top, bottom = parse_text_into_params(text)
 
