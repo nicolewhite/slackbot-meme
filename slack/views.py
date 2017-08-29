@@ -5,15 +5,11 @@ app = Flask(__name__)
 memegen = Memegen()
 slack = Slack()
 
-@app.route("/")
+@app.route("/", methods=["GET", "POST"])
 def meme():
-    if not request.args:
-        return memegen.help()
-
-    token = request.args["token"]
-    text = request.args["text"].strip()
-    channel_id = request.args["channel_id"]
-    user_id = request.args["user_id"]
+    data = request.form if request.method == 'POST' else request.args
+    token, text, channel_id, user_id = [data[key] for key in ("token", "text", "channel_id", "user_id")]
+    text = text.strip()
 
     if token != slack.SLASH_COMMAND_TOKEN:
         return "Unauthorized."
