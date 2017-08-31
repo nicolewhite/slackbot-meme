@@ -5,15 +5,15 @@
   "keywords": ["slack", "meme"],
   "env": {
     "SLACK_API_TOKEN": {
-      "description": "Your team's Slack API token.",
+      "description": "Your Slack App's API token.",
       "value": "CHANGE_ME"
     },
     "SLACK_WEBHOOK_URL": {
-      "description": "The URL of your Incoming Webhook.",
+      "description": "The URL of Slack App's Incoming Webhook.",
       "value": "CHANGE_ME"
     },
-    "SLACK_SLASH_COMMAND_TOKEN": {
-      "description": "The token of your Slash Command.",
+    "SLACK_VERIFICATION_TOKEN": {
+      "description": "Your Slack App's verification token.",
       "value": "CHANGE_ME"
     }
   }

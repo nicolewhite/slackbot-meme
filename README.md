@@ -30,34 +30,57 @@ The memes are posted under a bot in the same channel where `/meme` was called, w
 
 ## Setup
 
-### Slack API Token
+### Slack App
 
-[Go to the Slack Web API page](https://api.slack.com/web) and scroll down to **Authentication**. If you haven't already, generate a token. This is your `SLACK_API_TOKEN`.
+1. Create a new Slack App at the [App creation page](https://api.slack.com/apps/new).
 
-### Incoming Webhook
+   ![Slack App creation](support/slack-app-creation.png)
 
-[Create a new Incoming Webhook](https://my.slack.com/services/new/incoming-webhook/). You can choose any channel; it doesn't matter. 
-The channel will be overridden on each request with the channel from which the request originated. After creating, you'll see 
-a **Webhook URL** field. This is your `SLACK_WEBHOOK_URL`.
+   Name your app with something easy to recognize, for example "Meme". If you are logged into more than one workspace, select one of them as the Development Slack Workspace.
 
-### Slash Command
+2. Find your verification token and store it in an environment variable. On the Basic Information page, scroll down to find the "App Credentials" section.
 
-[Create a new Slash Command](https://my.slack.com/services/new/slash-commands). Call it `/meme`. After creating, you'll see a **Token** field. This is your `SLACK_SLASH_COMMAND_TOKEN`. Keep this page open, as you'll need to configure the Slash Command further after deploying your Heroku App.
+   ![App credentails](support/slack-app-credentials.png)
+
+   Copy the value in the "Verification Token" field, and store this value in the environment variable named `SLACK_VERIFICATION_TOKEN`. If you are going to run this app on the command line, its easy to do in your shell:
+
+   ```
+   $ export SLACK_VERIFICATION_TOKEN="replace with your token"
+   ```
+
+3. Create an Incoming Webhook and store the its URL in an environment variable. On the Incoming Webhooks page (under Features), slide the toggle to activate incoming webhooks. Click the button to add a new webhook.
+
+   ![Enable incoming webhooks](support/slack-create-incoming-webhook.png)
+
+   You'll be taken to a page to install your app in your workspace with the permissions required for the incoming webhook. Select a channel (it doesn't matter which one) and click Authorize.
+
+   ![Authorize installation](support/slack-auth-installation.png)
+
+   When you return to the Incoming Webhooks page, you'll find a new item in the table. Copy the Webhook URL and store it in another environment variable called `SLACK_WEBHOOK_URL`.
+
+4. Find your API token and store it in an enviornment variable. On the Install App page you'll find an Oauth Access Token. This value is used as your API token. Copy it and store it in another environment variable called `SLACK_API_TOKEN`. **Leave the Slack App configuration open, you need to finish by adding the slash command below**.
 
 ### Deploy to Heroku
+
+[Heroku](https://www.heroku.com/home) is the simplest platform to deploy your application onto. If you have your own hosting you can move onto the next section. If you're developing and running the application locally, at the very least you'll need a public URL where Slack can send requests and [ngrok](https://ngrok.com/) can be very useful for that.
+
+If you don't aleady have an account with Heroku, sign up for free, then click the button:
+
 [![Deploy](https://www.herokucdn.com/deploy/button.png)](https://heroku.com/deploy)
 
-Paste your `SLACK_API_TOKEN`, `SLACK_WEBHOOK_URL`, and `SLACK_SLASH_COMMAND_TOKEN` values into the appropriate config variables.
+Paste your `SLACK_API_TOKEN`, `SLACK_WEBHOOK_URL`, and `SLACK_VERIFICATION_TOKEN` values into the appropriate config variables.
 
-<img src="http://i.imgur.com/reNOSXe.png">
+![Configure Heroku app](support/heroku-config-app.png)
 
-Click **Deploy for Free**. Once finished, the **Name** field will now be populated if you didn't choose a name upfront.
+Click **Deploy app**. Once finished, the **App name** field will now be populated if you didn't choose a name upfront.
 
 ### Finish Slash Command Config
 
-Go back to your Slash Command configuration page, which you left open. Enter your app's URL, which is `https://your-app-name.herokuapp.com`, into the **URL** field. Replace `your-app-name` with the name of your app. Configure it to send a `GET` request to this URL. For example, here is my configuration page:
+Go to the Slash Command configuration page (under Features). Create a new command and fill in the details.
 
-<img src="http://i.imgur.com/mFtpKDX.png">
+![Create slash command](support/slack-slash-command-details.png)
+
+The Request URL is the root URL for where you deployed the application. If you deployed to Heroku, the is `https://you-app-name.herokuapp.com` (replace with your own app name).
 
 Save the Slash Command integration.
 

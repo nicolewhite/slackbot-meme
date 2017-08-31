@@ -80,7 +80,7 @@ class Slack:
         self.BASE_URL = "https://slack.com/api"
         self.API_TOKEN = os.environ.get("SLACK_API_TOKEN")
         self.WEBHOOK_URL = os.environ.get("SLACK_WEBHOOK_URL").strip()
-        self.SLASH_COMMAND_TOKEN = os.environ.get("SLACK_SLASH_COMMAND_TOKEN")
+        self.SLASH_COMMAND_TOKEN = os.environ.get("SLACK_VERIFICATION_TOKEN")
 
     def find_user_info(self, user_id):
         url = self.BASE_URL + "/users.info?token={0}&user={1}".format(self.API_TOKEN, user_id)
